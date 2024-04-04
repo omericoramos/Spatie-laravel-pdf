@@ -4,6 +4,7 @@
             <ul class="flex flex-wrap">
                 <li><a href="{{ route('generatePdfView') }}" target="_blank">Visualizar pdf</a></li>
                 <li><a href="{{ route('generatePdfSaveToStorage') }}">Salvar pdf na pasta storage</a></li>
+                <li><a href="{{ route('generatePdfAndDownload') }}">Baixar pdf da lista</a></li>
             </ul>
         </nav>
     </x-slot>
