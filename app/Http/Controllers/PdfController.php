@@ -21,7 +21,8 @@ class PdfController extends Controller
         $users = User::all();
         return Pdf::view('userList', compact('users'))
         ->format(Format::A4)
-        ->name('users.pdf');
+        ->name('users.pdf')
+        ->download();
     }
 
 }
