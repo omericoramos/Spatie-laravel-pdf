@@ -2,34 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Actions\GeneratePdfAction;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
-use Spatie\LaravelPdf\Enums\Format;
-use Spatie\LaravelPdf\Facades\Pdf;
+use Spatie\LaravelPdf\PdfBuilder;
 
 class PdfController extends Controller
 {
-    public function generatePdfSaveToStorage()
+    public function __construct(
+        private GeneratePdfAction $generatePdfAction = new GeneratePdfAction()
+    ) {
+    }
+    public function generatePdfSaveToStorage(): View
     {
-        $users = User::all();
-        Pdf::view('userList', compact('users'))->save(storage_path('app/public/users.pdf'));
-        return View('userListView',compact('users'));
+        $users = $this->generatePdfAction->generatePdfSaveToStorage();
+        return View('userListView', compact('users'));
     }
 
-    public function generatePdfView(){
-        $users = User::all();
-        return Pdf::view('userList', compact('users'))
-        ->format(Format::A4)
-        ->name('users.pdf');
+    public function generatePdfView(): PdfBuilder
+    {
+        return $this->generatePdfAction->generatePdfView();
     }
 
-    public function generatePdfAndDownload(){
-        $users = User::all();
-        return Pdf::view('userList', compact('users'))
-        ->format(Format::A4)
-        ->name('users.pdf')
-        ->download();
+    public function generatePdfAndDownload(): PdfBuilder
+    {
+       return $this->generatePdfAction->generatePdfAndDownload();
     }
-
 }
